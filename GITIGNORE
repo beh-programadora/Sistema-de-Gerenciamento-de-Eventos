@@ -1,0 +1,63 @@
+# Ignorar arquivos temporários
+*.log
+*.tmp
+*.swp
+
+# Ignorar arquivos de banco de dados
+*.sql
+
+# Ignorar arquivos de configuração
+config/
+
+# Ignorar diretórios de cache
+cache/
+
+# Ignorar arquivos do sistema
+.DS_Store
+Thumbs.db
+
+Enunciado do Projeto
+# Enunciado do Projeto: Sistema de Gerenciamento de Eventos
+
+## Objetivo
+
+Desenvolver um sistema de banco de dados para gerenciar eventos, participantes e suas inscrições. O objetivo é criar um sistema que permita a administração eficiente de informações relacionadas a eventos e suas inscrições.
+
+## Descrição do Projeto
+
+Você foi contratado para criar um sistema para gerenciar eventos em uma empresa. Esse sistema deverá ser capaz de armazenar informações sobre os eventos organizados, os participantes que se inscrevem e detalhes sobre as inscrições realizadas. O sistema deve permitir a criação, atualização, consulta e exclusão de dados.
+
+## Requisitos do Sistema
+
+1. **Criação do Banco de Dados**:
+    - Criar um banco de dados chamado `gerenciamento_eventos`.
+
+2. **Criação das Tabelas**:
+    - **Eventos**: ID, nome, data, local, descrição.
+    - **Participantes**: ID, nome, email, telefone.
+    - **Inscrições**: ID, ID do evento, ID do participante, data da inscrição.
+
+3. **Inserção de Dados**:
+    - Adicionar pelo menos 3 eventos e 3 participantes.
+    - Registrar pelo menos 5 inscrições.
+
+4. **Consultas**:
+    - Mostrar todas as inscrições realizadas, incluindo o nome do participante e o nome do evento.
+    - Mostrar todas as inscrições realizadas por um participante específico.
+    - Exibir todos os participantes inscritos em um evento específico.
+    - Listar todos os participantes que se inscreveram em mais de um evento.
+
+5. **Atualização e Exclusão de Dados**:
+    - Atualizar informações de eventos e participantes.
+    - Deletar eventos passados e inscrições específicas.
+
+6. **Funcionalidades Adicionais**:
+    - Listar todos os participantes que se inscreveram em mais de um evento.
+    - Criar uma interface simples para interação com o sistema.
+
+## Entrega
+
+O projeto deve ser entregue com:
+- O código SQL completo para criação do banco de dados, tabelas e inserção de dados.
+- Scripts de consultas, atualizações e exclusões.
+- Documentação contendo o README e informações sobre a execução do projeto.
