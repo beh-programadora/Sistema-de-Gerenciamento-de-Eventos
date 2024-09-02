@@ -1,0 +1,106 @@
+-- Passo 1: Criar o Banco de Dados
+DROP DATABASE IF EXISTS gerenciamento_eventos;
+CREATE DATABASE gerenciamento_eventos;
+USE gerenciamento_eventos;
+
+-- Passo 2: Criar as Tabelas
+
+-- Tabela de Eventos
+CREATE TABLE Eventos (
+    id_evento INT AUTO_INCREMENT PRIMARY KEY,
+    nome_evento VARCHAR(100) NOT NULL,
+    data DATE NOT NULL,
+    local VARCHAR(255),
+    descricao TEXT
+);
+
+-- Tabela de Participantes
+CREATE TABLE Participantes (
+    id_participante INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    telefone VARCHAR(20)
+);
+
+-- Tabela de Inscrições
+CREATE TABLE Inscricoes (
+    id_inscricao INT AUTO_INCREMENT PRIMARY KEY,
+    id_evento INT,
+    id_participante INT,
+    data_inscricao DATE NOT NULL,
+    FOREIGN KEY (id_evento) REFERENCES Eventos(id_evento) ON DELETE CASCADE,
+    FOREIGN KEY (id_participante) REFERENCES Participantes(id_participante) ON DELETE CASCADE
+);
+
+-- Passo 3: Inserir Dados
+
+-- Inserir dados na tabela Eventos
+INSERT INTO Eventos (nome_evento, data, local, descricao) VALUES
+('Conferência de Tecnologia', '2024-09-15', 'Centro de Convenções', 'Conferência sobre as últimas tendências em tecnologia.'),
+('Workshop de Programação', '2024-10-05', 'Auditório da Universidade', 'Workshop prático de programação em Python.'),
+('Fórum de Negócios', '2024-11-20', 'Hotel Lux', 'Fórum sobre estratégias de negócios e crescimento profissional.');
+
+-- Inserir dados na tabela Participantes
+INSERT INTO Participantes (nome, email, telefone) VALUES
+('Ana Costa', 'ana.costa@example.com', '(11) 98765-4321'),
+('Carlos Silva', 'carlos.silva@example.com', '(21) 12345-6789'),
+('Beatriz Martins', 'beatriz.martins@example.com', '(31) 23456-7890');
+
+-- Inserir dados na tabela Inscricoes
+INSERT INTO Inscricoes (id_evento, id_participante, data_inscricao) VALUES
+(1, 1, '2024-08-20'),
+(2, 2, '2024-08-25'),
+(3, 3, '2024-09-01'),
+(1, 2, '2024-08-22'),
+(2, 1, '2024-09-01');
+
+-- Passo 4: Consultas e Relatórios
+
+-- Consulta 1: Mostrar todas as inscrições realizadas, incluindo o nome do participante e o nome do evento
+SELECT Inscricoes.id_inscricao, Participantes.nome AS Participante, Eventos.nome_evento AS Evento, Inscricoes.data_inscricao
+FROM Inscricoes
+JOIN Participantes ON Inscricoes.id_participante = Participantes.id_participante
+JOIN Eventos ON Inscricoes.id_evento = Eventos.id_evento;
+
+-- Consulta 2: Mostrar todas as inscrições realizadas por um participante específico
+-- Exemplo para o participante com id_participante = 1
+SELECT Eventos.nome_evento AS Evento, Inscricoes.data_inscricao
+FROM Inscricoes
+JOIN Eventos ON Inscricoes.id_evento = Eventos.id_evento
+WHERE Inscricoes.id_participante = 1;
+
+-- Consulta 3: Exibir todos os participantes inscritos em um evento específico
+-- Exemplo para o evento com id_evento = 2
+SELECT Participantes.nome AS Participante, Inscricoes.data_inscricao
+FROM Inscricoes
+JOIN Participantes ON Inscricoes.id_participante = Participantes.id_participante
+WHERE Inscricoes.id_evento = 2;
+
+-- Consulta 4: Listar todos os participantes que se inscreveram em mais de um evento
+SELECT Participantes.nome, COUNT(DISTINCT Inscricoes.id_evento) AS Numero_Eventos
+FROM Inscricoes
+JOIN Participantes ON Inscricoes.id_participante = Participantes.id_participante
+GROUP BY Participantes.id_participante
+HAVING COUNT(DISTINCT Inscricoes.id_evento) > 1;
+
+-- Passo 5: Atualização e Deleção de Dados
+
+-- Atualizar informações sobre um evento
+-- Exemplo para atualizar o local do evento com id_evento = 1
+UPDATE Eventos
+SET local = 'Centro de Eventos'
+WHERE id_evento = 1;
+
+-- Atualizar informações de contato de um participante
+-- Exemplo para atualizar o telefone do participante com id_participante = 2
+UPDATE Participantes
+SET telefone = '(21) 98765-4321'
+WHERE id_participante = 2;
+
+-- Deletar um evento passado
+-- Exemplo para deletar o evento com id_evento = 3
+DELETE FROM Eventos WHERE id_evento = 3;
+
+-- Cancelar a inscrição de um participante em um evento específico
+-- Exemplo para cancelar a inscrição do participante com id_participante = 1 no evento com id_evento = 2
+DELETE FROM Inscricoes WHERE id_participante = 1 AND id_evento = 2;
